@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_authentification_1/fingerauth.dart';
 import 'package:flutter_authentification_1/forgot.dart';
 import 'package:flutter_authentification_1/signup.dart';
 import 'package:get/get.dart';
@@ -95,6 +96,10 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   
+                  ElevatedButton(
+                  onPressed: () => Get.to(FingerAuth()),
+                  child: Text("Login with Fingerprint"),
+                ),
                 ],
               ),
             ),
