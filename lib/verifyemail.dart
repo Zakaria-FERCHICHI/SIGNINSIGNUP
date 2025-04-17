@@ -11,6 +11,10 @@ class Verifyemail extends StatefulWidget {
 }
 
 class _VerifyemailState extends State<Verifyemail> {
+
+    signout()async{
+    await FirebaseAuth.instance.signOut();
+  }
   @override
   void initState() {
     sendverifylink();
@@ -29,7 +33,14 @@ class _VerifyemailState extends State<Verifyemail> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Verification"),),
+      appBar: AppBar(title: Text("Verification"),
+      actions: [
+        IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: (()=>signout()), 
+            tooltip: 'Logout',
+          )
+      ],),
       body: Padding(
         padding: const EdgeInsets.all(28.0),
         child: Center(

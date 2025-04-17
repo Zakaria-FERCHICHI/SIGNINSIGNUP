@@ -13,9 +13,36 @@ class _ForgotState extends State<Forgot> {
 
   TextEditingController email=TextEditingController();
 
-  reset()async{
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+ reset() async {
+  final emailText = email.text.trim();
+  if (emailText.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Veuillez saisir une adresse e-mail.")),
+    );
+    return;
   }
+
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: emailText);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("✅ Lien de réinitialisation est envoyé ")),
+    );
+  } on FirebaseAuthException catch (e) {
+    String message = "Une erreur est survenue.";
+    if (e.code == 'user-not-found') {
+      message = "Aucun utilisateur trouvé pour cet e-mail.";
+    } else if (e.code == 'invalid-email') {
+      message = "Adresse e-mail invalide.";
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("❌ $message")),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Erreur : ${e.toString()}")),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
